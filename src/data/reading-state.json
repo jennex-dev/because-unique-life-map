@@ -1,0 +1,20 @@
+{
+  "bookId": "3300122247",
+  "title": "因为独特",
+  "author": "李翔",
+  "publisher": "中信出版集团",
+  "deepLink": "https://weread.qq.com/book-detail?type=1&v=55e32900813ab9640g017ec0",
+  "progress": 5,
+  "chapterUid": 10,
+  "chapterIdx": 10,
+  "chapterTitle": "泡泡玛特不是什么",
+  "underlineCount": 5,
+  "lastReadAt": "2026-08-26",
+  "syncedAt": "2026-08-25T19:43:24.518Z",
+  "unlockedMilestoneIds": [
+    "sias",
+    "box-street",
+    "beijing-work",
+    "first-store"
+  ]
+}
