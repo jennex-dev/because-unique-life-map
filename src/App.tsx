@@ -232,8 +232,8 @@ function App() {
                     onClick={() => focusMapOn(milestone.id)}
                   >
                     <span className="timeline__index">{String(milestone.order).padStart(2, '0')}</span>
-                    <strong>{unlocked ? milestone.year : '···'}</strong>
-                    <small>{unlocked ? milestone.shortTitle : '地图迷雾'}</small>
+                    <strong>{milestone.year}</strong>
+                    <small>{milestone.shortTitle}</small>
                   </button>
                 )
               })}
