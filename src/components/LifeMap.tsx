@@ -14,36 +14,20 @@ type Props = {
   selectedId: string
   showUnlockedOnly: boolean
   category: CategoryFilter
+  focusRequest: { id: string; nonce: number }
   onSelect: (id: string) => void
 }
 
 const key = import.meta.env.VITE_AMAP_JS_KEY as string | undefined
 const securityJsCode = import.meta.env.VITE_AMAP_SECURITY_JS_CODE as string | undefined
 
-const mobileMarkerOffsets: Partial<Record<string, [number, number]>> = {
-  sias: [-18, -14],
-  'box-street': [18, 12],
-  'beijing-work': [-34, -18],
-  'first-store': [-63, 12],
-  sanlitun: [24, 13],
-  pku: [0, 42],
-  'wangjing-hq': [8, -10],
-  'pop-land': [57, -20],
-  'hong-kong-toys': [-18, -12],
-  'tianjin-riverside': [-55, -5],
-  'dongguan-supply': [-30, 19],
-  'shenzhen-supply': [48, 24],
-  hkex: [-20, 18],
-  'bangkok-centralworld': [-20, -17],
-  'bangkok-crybaby': [20, -3],
-  suvarnabhumi: [0, 22],
-}
-
-export function LifeMap({ milestones, unlockedIds, selectedId, showUnlockedOnly, category, onSelect }: Props) {
+export function LifeMap({ milestones, unlockedIds, selectedId, showUnlockedOnly, category, focusRequest, onSelect }: Props) {
   const containerRef = useRef<HTMLDivElement>(null)
   const mapRef = useRef<any>(null)
   const objectsRef = useRef<any[]>([])
   const onSelectRef = useRef(onSelect)
+  const lastFocusNonceRef = useRef(0)
+  const lastViewKeyRef = useRef<string | null>(null)
   const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading')
 
   useEffect(() => { onSelectRef.current = onSelect }, [onSelect])
@@ -98,16 +82,15 @@ export function LifeMap({ milestones, unlockedIds, selectedId, showUnlockedOnly,
       node.className = `life-marker category-${milestone.category} ${unlocked ? 'is-unlocked' : 'is-locked'} ${selected ? 'is-selected' : ''}`
       node.style.setProperty('--marker-color', categoryMeta[milestone.category].color)
       node.setAttribute('aria-label', unlocked ? `${milestone.year} ${milestone.title}，已点亮` : `第 ${milestone.order} 站，地图迷雾`)
-      node.innerHTML = unlocked
-        ? `<span class="life-marker__flag"><span class="life-marker__number">${String(milestone.order).padStart(2, '0')}</span><span class="life-marker__label">${milestone.mapLabel}</span></span>`
-        : `<span class="life-marker__fog"><span>${String(milestone.order).padStart(2, '0')}</span></span>`
+      node.innerHTML = selected
+        ? `<span class="life-marker__flag ${unlocked ? '' : 'life-marker__flag--locked'}"><span class="life-marker__number">${String(milestone.order).padStart(2, '0')}</span><span class="life-marker__label">${unlocked ? milestone.mapLabel : '地图迷雾'}</span></span>`
+        : '<span class="life-marker__dot" aria-hidden="true"></span>'
       node.addEventListener('click', () => onSelectRef.current(milestone.id))
-      const mobileOffset = isMobileMap ? mobileMarkerOffsets[milestone.id] : undefined
       const marker = new AMap.Marker({
         position: milestone.coordinates,
         content: node,
         anchor: 'bottom-center',
-        offset: new AMap.Pixel(mobileOffset?.[0] ?? 0, mobileOffset?.[1] ?? -4),
+        offset: new AMap.Pixel(0, -4),
         zIndex: selected ? 180 : unlocked ? 130 : 80,
       })
       marker.setMap(map)
@@ -157,15 +140,25 @@ export function LifeMap({ milestones, unlockedIds, selectedId, showUnlockedOnly,
     }
 
     objectsRef.current.push(...markers)
-    if (visible.length > 1 && category !== 'all') {
+    const viewKey = `${category}-${showUnlockedOnly}`
+    const viewChanged = lastViewKeyRef.current !== null && lastViewKeyRef.current !== viewKey
+    const firstView = lastViewKeyRef.current === null
+    const hasNewFocus = focusRequest.nonce > 0 && focusRequest.nonce !== lastFocusNonceRef.current
+    lastViewKeyRef.current = viewKey
+
+    if (hasNewFocus) {
+      lastFocusNonceRef.current = focusRequest.nonce
+      const focused = milestones.find((milestone) => milestone.id === focusRequest.id)
+      if (focused) map.setZoomAndCenter(isMobileMap ? 9 : 7.5, focused.coordinates, true)
+    } else if (visible.length > 1 && category !== 'all') {
       map.setFitView(markers, false, [100, 80, 100, 80], 12)
-    } else if (category === 'all') {
+    } else if (category === 'all' && (firstView || viewChanged)) {
       map.setZoomAndCenter(isMobileMap ? 5.25 : 4.6, isMobileMap ? [115.2, 36.2] : [114.93, 33.1], false)
     } else {
       const selected = visible.find((milestone) => milestone.id === selectedId)
       if (selected) map.panTo(selected.coordinates, 450)
     }
-  }, [category, milestones, selectedId, showUnlockedOnly, status, unlockedIds])
+  }, [category, focusRequest, milestones, selectedId, showUnlockedOnly, status, unlockedIds])
 
   return (
     <div ref={containerRef} className={`map-canvas ${status === 'loading' ? 'is-loading' : ''} ${status === 'error' ? 'has-error' : ''}`}>

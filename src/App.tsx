@@ -31,6 +31,7 @@ function App() {
   const [selectedId, setSelectedId] = useState(latestUnlocked?.id ?? milestones[0].id)
   const [showUnlockedOnly, setShowUnlockedOnly] = useState(false)
   const [category, setCategory] = useState<CategoryFilter>('all')
+  const [focusRequest, setFocusRequest] = useState({ id: '', nonce: 0 })
 
   const visibleMilestones = useMemo(
     () => milestones.filter((milestone) =>
@@ -70,7 +71,12 @@ function App() {
   const moveSelection = (direction: -1 | 1) => {
     const currentIndex = visibleIndex >= 0 ? visibleIndex : 0
     const nextIndex = Math.min(visibleMilestones.length - 1, Math.max(0, currentIndex + direction))
-    if (visibleMilestones[nextIndex]) setSelectedId(visibleMilestones[nextIndex].id)
+    if (visibleMilestones[nextIndex]) focusMapOn(visibleMilestones[nextIndex].id)
+  }
+
+  function focusMapOn(id: string) {
+    setSelectedId(id)
+    setFocusRequest((current) => ({ id, nonce: current.nonce + 1 }))
   }
 
   return (
@@ -97,6 +103,7 @@ function App() {
             selectedId={selectedId}
             showUnlockedOnly={showUnlockedOnly}
             category={category}
+            focusRequest={focusRequest}
             onSelect={setSelectedId}
           />
 
@@ -222,7 +229,7 @@ function App() {
                     key={milestone.id}
                     className={`${selectedId === milestone.id ? 'is-selected' : ''} ${unlocked ? 'is-unlocked' : 'is-locked'} category-${milestone.category}`}
                     style={{ '--category-color': categoryMeta[milestone.category].color } as CSSProperties}
-                    onClick={() => setSelectedId(milestone.id)}
+                    onClick={() => focusMapOn(milestone.id)}
                   >
                     <span className="timeline__index">{String(milestone.order).padStart(2, '0')}</span>
                     <strong>{unlocked ? milestone.year : '···'}</strong>

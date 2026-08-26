@@ -104,11 +104,13 @@
 .life-marker__flag::after { content: ''; position: absolute; left: 50%; bottom: -8px; width: 13px; height: 13px; transform: translateX(-50%) rotate(45deg); background: var(--marker-color); border-right: 2px solid var(--ink); border-bottom: 2px solid var(--ink); z-index: -1; }
 .life-marker__number { font: 900 13px var(--display); line-height: 1; }
 .life-marker__label { margin-top: 3px; font-size: 8px; white-space: nowrap; font-weight: 800; }
-.life-marker__fog { width: 29px; height: 29px; display: grid; place-items: center; border: 2px solid rgba(255,255,255,.85); border-radius: 50% 43% 48% 45%; color: #77737c; background: rgba(198,196,201,.82); box-shadow: 0 0 0 1px rgba(42,35,55,.28),0 0 18px 8px rgba(236,235,232,.72); font: 800 8px var(--display); }
+.life-marker__dot { display: block; width: 11px; height: 11px; border: 2px solid #fffdf7; border-radius: 50%; background: var(--marker-color); box-shadow: 0 0 0 1px rgba(42,35,55,.42),0 2px 6px rgba(42,35,55,.2); }
 .life-marker.is-locked { filter: grayscale(1) drop-shadow(0 4px 6px rgba(38,31,48,.1)); opacity: .72; }
+.life-marker.is-locked .life-marker__dot { width: 8px; height: 8px; border-width: 1px; background: #aaa7af; box-shadow: 0 0 0 1px rgba(42,35,55,.28); }
 .life-marker.is-selected .life-marker__flag { background: var(--ink); }
 .life-marker.is-selected .life-marker__flag::after { background: var(--ink); }
-.life-marker.is-selected .life-marker__fog { color: white; background: var(--ink); opacity: 1; }
+.life-marker.is-selected .life-marker__flag--locked { background: #77737c; }
+.life-marker.is-selected .life-marker__flag--locked::after { background: #77737c; }
 @media (max-width:1150px) and (min-width:901px) {
   .map-intro { width: 290px; }
   .category-tabs { flex-direction: column; align-items: stretch; border-radius: 18px; }
@@ -141,15 +143,12 @@
   .progress-orbit { width: 52px; height: 52px; }
   .quest-progress { margin-top: 18px; }
   .milestone-card { padding: 17px; }
-  .life-marker__flag { min-width: 29px; min-height: 29px; padding: 0; border-width: 2px; border-radius: 50% 45% 48% 43%; }
-  .life-marker__flag::after { display: none; }
-  .life-marker__number { font-size: 10px; }
-  .life-marker__label { display: none; }
   .life-marker.is-selected .life-marker__flag { min-width: 46px; min-height: 43px; padding: 5px 7px 6px; border-radius: 15px 13px 16px 12px; }
   .life-marker.is-selected .life-marker__flag::after { display: block; }
   .life-marker.is-selected .life-marker__number { font-size: 13px; }
   .life-marker.is-selected .life-marker__label { display: block; }
-  .life-marker__fog { width: 23px; height: 23px; border-width: 1.5px; box-shadow: 0 0 0 1px rgba(42,35,55,.22),0 0 12px 5px rgba(236,235,232,.6); font-size: 7px; }
+  .life-marker__dot { width: 9px; height: 9px; border-width: 1.5px; }
+  .life-marker.is-locked .life-marker__dot { width: 6px; height: 6px; }
 }
 @media (max-width:390px) {
   .sync-status { max-width: 117px; overflow: hidden; white-space: nowrap; }
