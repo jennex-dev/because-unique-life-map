@@ -120,10 +120,14 @@
   .brand__seal { width: 34px; height: 34px; }
   .sync-status { padding: 7px 9px; font-size: 9px; }
   .workspace { height: auto; min-height: calc(100svh - 60px); display: block; overflow: visible; }
-  .map-stage { height: 64svh; min-height: 470px; }
-  .map-intro { top: 14px; left: 14px; width: min(300px,calc(100% - 28px)); padding: 14px 16px; }
-  .map-intro h1 { font-size: 25px; }
-  .map-controls { top: 142px; left: 14px; right: 14px; align-items: flex-start; justify-items: start; overflow: hidden; }
+  .map-stage { height: 64svh; min-height: 470px; padding-top: 88px; background: var(--paper); }
+  .map-canvas { top: 88px; }
+  .map-intro { top: 0; left: 0; width: 100%; height: 88px; padding: 12px 16px 10px; border-width: 0 0 1px; border-radius: 0; box-shadow: none; transform: none; background: rgba(255,253,247,.98); }
+  .map-intro h1 { margin: 4px 0 2px; font-size: 20px; line-height: 1.1; letter-spacing: -.025em; }
+  .map-intro h1 br { display: none; }
+  .map-intro p { font-size: 10px; }
+  .eyebrow { font-size: 8px; }
+  .map-controls { top: 100px; left: 14px; right: 14px; align-items: flex-start; justify-items: start; overflow: hidden; }
   .category-tabs { max-width: 100%; overflow-x: auto; scrollbar-width: none; }
   .category-tabs::-webkit-scrollbar { display: none; }
   .category-tabs button { padding: 7px 9px; }
@@ -137,11 +141,20 @@
   .progress-orbit { width: 52px; height: 52px; }
   .quest-progress { margin-top: 18px; }
   .milestone-card { padding: 17px; }
+  .life-marker__flag { min-width: 29px; min-height: 29px; padding: 0; border-width: 2px; border-radius: 50% 45% 48% 43%; }
+  .life-marker__flag::after { display: none; }
+  .life-marker__number { font-size: 10px; }
+  .life-marker__label { display: none; }
+  .life-marker.is-selected .life-marker__flag { min-width: 46px; min-height: 43px; padding: 5px 7px 6px; border-radius: 15px 13px 16px 12px; }
+  .life-marker.is-selected .life-marker__flag::after { display: block; }
+  .life-marker.is-selected .life-marker__number { font-size: 13px; }
+  .life-marker.is-selected .life-marker__label { display: block; }
+  .life-marker__fog { width: 23px; height: 23px; border-width: 1.5px; box-shadow: 0 0 0 1px rgba(42,35,55,.22),0 0 12px 5px rgba(236,235,232,.6); font-size: 7px; }
 }
 @media (max-width:390px) {
   .sync-status { max-width: 117px; overflow: hidden; white-space: nowrap; }
   .map-stage { min-height: 500px; }
-  .map-controls { top: 146px; }
+  .map-controls { top: 100px; }
   .category-tabs button { font-size: 9px; }
   .map-legend { bottom: 22px; }
   .milestone-card__header { flex-wrap: wrap; }
