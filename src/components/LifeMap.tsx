@@ -82,9 +82,7 @@ export function LifeMap({ milestones, unlockedIds, selectedId, showUnlockedOnly,
       node.className = `life-marker category-${milestone.category} ${unlocked ? 'is-unlocked' : 'is-locked'} ${selected ? 'is-selected' : ''}`
       node.style.setProperty('--marker-color', categoryMeta[milestone.category].color)
       node.setAttribute('aria-label', unlocked ? `${milestone.year} ${milestone.title}，已点亮` : `第 ${milestone.order} 站，地图迷雾`)
-      node.innerHTML = selected
-        ? `<span class="life-marker__flag ${unlocked ? '' : 'life-marker__flag--locked'}"><span class="life-marker__number">${String(milestone.order).padStart(2, '0')}</span><span class="life-marker__label">${unlocked ? milestone.mapLabel : '地图迷雾'}</span></span>`
-        : '<span class="life-marker__dot" aria-hidden="true"></span>'
+      node.innerHTML = `<span class="life-marker__flag ${unlocked ? '' : 'life-marker__flag--locked'}"><span class="life-marker__number">${String(milestone.order).padStart(2, '0')}</span><span class="life-marker__label">${milestone.mapLabel}</span></span>`
       node.addEventListener('click', () => onSelectRef.current(milestone.id))
       const marker = new AMap.Marker({
         position: milestone.coordinates,

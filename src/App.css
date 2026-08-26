@@ -99,14 +99,14 @@
 .footer-note p { margin: 0; max-width: 70%; }
 .footer-note span { white-space: nowrap; }
 .life-marker { appearance: none; border: 0; background: transparent; position: relative; padding: 0; font-family: var(--sans); cursor: pointer; filter: drop-shadow(0 6px 7px rgba(38,31,48,.18)); transition: transform .18s ease; }
-.life-marker:hover,.life-marker.is-selected { transform: translateY(-5px) scale(1.04); }
-.life-marker__flag { min-width: 48px; min-height: 45px; padding: 5px 7px 7px; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 2px solid #fffdf7; border-radius: 16px 13px 17px 12px; color: white; background: var(--marker-color); box-shadow: 0 0 0 2px var(--ink); }
-.life-marker__flag::after { content: ''; position: absolute; left: 50%; bottom: -8px; width: 13px; height: 13px; transform: translateX(-50%) rotate(45deg); background: var(--marker-color); border-right: 2px solid var(--ink); border-bottom: 2px solid var(--ink); z-index: -1; }
-.life-marker__number { font: 900 13px var(--display); line-height: 1; }
-.life-marker__label { margin-top: 3px; font-size: 8px; white-space: nowrap; font-weight: 800; }
-.life-marker__dot { display: block; width: 11px; height: 11px; border: 2px solid #fffdf7; border-radius: 50%; background: var(--marker-color); box-shadow: 0 0 0 1px rgba(42,35,55,.42),0 2px 6px rgba(42,35,55,.2); }
+.life-marker:hover,.life-marker.is-selected { transform: translateY(-1px); }
+.life-marker__flag { min-width: 32px; min-height: 29px; padding: 3px 5px 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 1.5px solid #fffdf7; border-radius: 10px 8px 11px 8px; color: white; background: var(--marker-color); box-shadow: 0 0 0 1.5px var(--ink); }
+.life-marker__flag::after { content: ''; position: absolute; left: 50%; bottom: -5px; width: 8px; height: 8px; transform: translateX(-50%) rotate(45deg); background: var(--marker-color); border-right: 1.5px solid var(--ink); border-bottom: 1.5px solid var(--ink); z-index: -1; }
+.life-marker__number { font: 900 8px var(--display); line-height: 1; }
+.life-marker__label { margin-top: 2px; font-size: 5px; line-height: 1; white-space: nowrap; font-weight: 800; }
 .life-marker.is-locked { filter: grayscale(1) drop-shadow(0 4px 6px rgba(38,31,48,.1)); opacity: .72; }
-.life-marker.is-locked .life-marker__dot { width: 8px; height: 8px; border-width: 1px; background: #aaa7af; box-shadow: 0 0 0 1px rgba(42,35,55,.28); }
+.life-marker__flag--locked { background: #aaa7af; }
+.life-marker__flag--locked::after { background: #aaa7af; }
 .life-marker.is-selected .life-marker__flag { background: var(--ink); }
 .life-marker.is-selected .life-marker__flag::after { background: var(--ink); }
 .life-marker.is-selected .life-marker__flag--locked { background: #77737c; }
@@ -143,12 +143,9 @@
   .progress-orbit { width: 52px; height: 52px; }
   .quest-progress { margin-top: 18px; }
   .milestone-card { padding: 17px; }
-  .life-marker.is-selected .life-marker__flag { min-width: 46px; min-height: 43px; padding: 5px 7px 6px; border-radius: 15px 13px 16px 12px; }
-  .life-marker.is-selected .life-marker__flag::after { display: block; }
-  .life-marker.is-selected .life-marker__number { font-size: 13px; }
-  .life-marker.is-selected .life-marker__label { display: block; }
-  .life-marker__dot { width: 9px; height: 9px; border-width: 1.5px; }
-  .life-marker.is-locked .life-marker__dot { width: 6px; height: 6px; }
+  .life-marker__flag { min-width: 29px; min-height: 27px; padding: 3px 4px 4px; }
+  .life-marker__number { font-size: 7px; }
+  .life-marker__label { font-size: 5px; }
 }
 @media (max-width:390px) {
   .sync-status { max-width: 117px; overflow: hidden; white-space: nowrap; }
